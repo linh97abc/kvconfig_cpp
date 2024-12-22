@@ -1,38 +1,35 @@
 #include "kv_config/kv_config_base.hpp"
 
+
+void KV_Config_Base::update_config(const std::string &key, const std::string &value)
+{
+
+    std::string ks(key);
+    std::string vs(value);
+
+    ks.erase(ks.find_last_not_of(" \t\n\r\f\v") + 1);
+    ks.erase(0, ks.find_first_not_of(" \t\n\r\f\v"));
+    vs.erase(vs.find_last_not_of(" \t\n\r\f\v") + 1);
+    vs.erase(0, vs.find_first_not_of(" \t\n\r\f\v"));
+
+    this->Lock();
+    this->__update_config(ks, vs);
+    this->UnLock();
+}
+
 void KV_Config_Base::decode(const std::string &config_str)
 {
 
     std::istringstream stream(config_str);
     std::string line;
+    stream >> std::ws;
 
     this->Lock();
     this->clear();
 
-    stream >> std::ws;
-
     while (std::getline(stream, line))
     {
-        std::istringstream line_stream(line);
-        std::string key, value;
-
-        if(!std::getline(line_stream, key, '='))
-        {
-            continue;
-        }
-
-        stream >> std::ws;
-
-        if(!std::getline(line_stream, value))
-        {
-            continue;
-        }
-
-        key.erase(key.find_last_not_of(" \t\n\r\f\v") + 1);
-        value.erase(value.find_last_not_of(" \t\n\r\f\v") + 1);
-        this->__update_config(key, value);
-
-        stream >> std::ws;
+        this->__update_config(line);
     }
 
     this->set_default_if_empty();
@@ -42,12 +39,11 @@ void KV_Config_Base::decode(const std::string &config_str)
 
 void KV_Config_Base::encode()
 {
-    this->Lock();
-
     std::ostringstream oss;
 
-    this->__encode(oss);
+    this->Lock();
 
+    this->__encode(oss);
     this->__config_str = oss.str();
 
     this->UnLock();
@@ -66,10 +62,23 @@ void KV_Config_Base::__update_config(const std::string &line)
 
     std::istringstream line_stream(line);
     std::string key, value;
-    if (std::getline(line_stream, key, '=') && std::getline(line_stream, value))
+
+    line_stream >> std::ws;
+    if (!std::getline(line_stream, key, '='))
     {
-        this->__update_config(key, value);
+        return;
     }
+
+    line_stream >> std::ws;
+
+    if (!std::getline(line_stream, value))
+    {
+        return;
+    }
+
+    key.erase(key.find_last_not_of(" \t\n\r\f\v") + 1);
+    value.erase(value.find_last_not_of(" \t\n\r\f\v") + 1);
+    this->__update_config(key, value);
 }
 
 std::ostream &operator<<(std::ostream &os, const IPAddress &ip)

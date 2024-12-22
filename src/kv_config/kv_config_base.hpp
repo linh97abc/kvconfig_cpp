@@ -33,17 +33,41 @@ public:
         return this->__config_str;
     }
 
+    /**
+     * @brief Encodes the current configuration data.
+     *
+     * This function is responsible for encoding the configuration data
+     * into a specific format. The exact encoding mechanism and format
+     * are determined by the implementation.
+     */
     void encode();
 
+    /**
+     * @brief Resets the configuration to its default state.
+     */
     void Reset();
 
-    void update_config(const std::string &key, const std::string &value)
-    {
-        this->Lock();
-        this->__update_config(key, value);
-        this->UnLock();
-    }
+    /**
+     * @brief Updates the configuration with the given key-value pair.
+     *
+     * This function trims leading and trailing whitespace from both the key and value,
+     * then locks the configuration, updates it with the provided key-value pair, and
+     * finally unlocks the configuration.
+     *
+     * @param key The configuration key to update.
+     * @param value The new value for the configuration key.
+     */
+    void update_config(const std::string &key, const std::string &value);
 
+    /**
+     * @brief Updates the configuration with the provided line.
+     *
+     * This function locks the configuration, updates it with the given line,
+     * and then unlocks the configuration. It ensures that the update operation
+     * is thread-safe.
+     *
+     * @param line The configuration line to update.
+     */
     void update_config(const std::string &line)
     {
         this->Lock();
@@ -51,6 +75,14 @@ public:
         this->UnLock();
     }
 
+    /**
+     * @brief Decodes the given configuration string.
+     *
+     * This function takes a configuration string in a specific format and decodes it
+     * to extract the configuration parameters.
+     *
+     * @param config_str The configuration string to decode.
+     */
     void decode(const std::string &config_str);
 
 private:
