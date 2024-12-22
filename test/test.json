@@ -1,0 +1,45 @@
+{
+    "str_cfg": {
+        "brief": "String config",
+        "type": "str",
+        "default": "SampleToken"
+    },
+
+    "bool_cfg": {
+        "brief": "Turn on or off",
+        "type": "bool",
+        "default": true
+    },
+
+    "int_cfg": {
+        "brief": "I32 config",
+        "type": "int",
+        "default": -12
+    },
+
+    "float_cfg": {
+        "brief": "Float config",
+        "type": "float",
+        "default": 3.14
+    },
+
+    "double_cfg": {
+        "brief": "Double config",
+        "type": "double",
+        "default": 3.14159265359
+    },
+
+    "ip_cfg": {
+        "brief": "IP config",
+        "type": "ip",
+        "default": "127.0.0.1/24"
+    },
+
+    "enum_cfg": {
+        "brief": "Enum config",
+        "type": "enum",
+        "default": "enum1",
+        "options": ["enum1", "enum2", "enum3"]
+    }
+
+}
