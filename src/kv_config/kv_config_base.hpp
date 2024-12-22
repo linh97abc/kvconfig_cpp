@@ -16,10 +16,14 @@ public:
     template <typename T>
     static bool cast(const std::string &value, T &out)
     {
-        std::cout << value << std::endl;
+        // std::cout << value << std::endl;
         std::istringstream stream(value);
         stream >> out;
-        stream >> std::ws;
+
+        if (!stream.eof())
+        {
+            stream >> std::ws;
+        }
 
         return !stream.fail() && stream.eof();
     }

@@ -9,14 +9,30 @@ void KV_Config_Base::decode(const std::string &config_str)
     this->Lock();
     this->clear();
 
+    stream >> std::ws;
+
     while (std::getline(stream, line))
     {
         std::istringstream line_stream(line);
         std::string key, value;
-        if (std::getline(line_stream, key, '=') && std::getline(line_stream, value))
+
+        if(!std::getline(line_stream, key, '='))
         {
-            this->__update_config(key, value);
+            continue;
         }
+
+        stream >> std::ws;
+
+        if(!std::getline(line_stream, value))
+        {
+            continue;
+        }
+
+        key.erase(key.find_last_not_of(" \t\n\r\f\v") + 1);
+        value.erase(value.find_last_not_of(" \t\n\r\f\v") + 1);
+        this->__update_config(key, value);
+
+        stream >> std::ws;
     }
 
     this->set_default_if_empty();

@@ -1,8 +1,43 @@
 #include "test.kv.hpp"
 #include <iostream>
 
+void test_decode()
+{
+    std::istringstream iss("   enum  abc ");
+    std::string key, value;
+
+    iss >> key;
+    iss >> value;
+
+    std::cout << key << "-" << value << std::endl;
+
+    Test_KVConfig config;
+    config.decode("str_cfg=hello\nbool_cfg=ags\nint_cfg=42\nfloat_cfg=7.14\ndouble_cfg=7.14159\nip_cfg=");
+
+    std::cout << config.str_cfg << std::endl;
+
+    config.encode();
+    std::cout << config.str() << std::endl;
+
+    std::cout << std::endl;
+    config.decode("str_cfg=hello\nbool_cfg=ags\nint_cfg=42\nfloat_cfg=7.14\ndouble_cfg=7.14159\nip_cfg=192.168.1.1");
+
+    config.encode();
+    std::cout << config.str() << std::endl;
+
+    std::cout << std::endl;
+    config.decode("  enum_cfg  = 2 \n str_cfg=hello world \nbool_cfg=ags\nint_cfg=42\nfloat_cfg=7.14\ndouble_cfg=7.14159\nip_cfg=192.168.1.1");
+
+    config.encode();
+    std::cout << config.str() << std::endl;
+}
+
 int main()
 {
+    test_decode();
+
+    return 0;
+
     Test_KVConfig config;
     config.str_cfg = "hello";
     config.bool_cfg = true;
