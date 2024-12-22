@@ -33,6 +33,16 @@ target_include_directories(kvconfig PUBLIC ${KV_GENERATED_DIR})
 
 
 
+# Function: KVCONFIG_GENERATE_CPP
+# -------------------------------
+# This function is responsible for generating C++ source files
+# based on the provided configuration. The exact details of
+# the generation process depend on the implementation within
+# the function.
+#
+# Usage:
+#   KVCONFIG_GENERATE_CPP(${json_file})
+#
 function(KVCONFIG_GENERATE_CPP)
     cmake_parse_arguments(KVCONFIG_GENERATE_CPP "" "" "" ${ARGN})
 

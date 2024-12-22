@@ -7,6 +7,20 @@
 #include <cstdint>
 #include <iostream>
 
+
+/**
+ * @class KV_Config_Base
+ * @brief A base class for key-value configuration management.
+ *
+ * This class provides a base interface for managing key-value configurations.
+ * It includes methods for locking and unlocking the configuration, encoding
+ * and decoding configuration data, and updating the configuration with key-value
+ * pairs or lines. The exact encoding, updating, and clearing mechanisms are
+ * determined by the derived classes.
+ *
+ * @note This class is intended to be subclassed, and certain methods must be
+ *       implemented by the derived classes.
+ */
 class KV_Config_Base
 {
 public:
@@ -96,6 +110,13 @@ private:
     void __update_config(const std::string &line);
 };
 
+/**
+ * @class IPAddress
+ * @brief A class to represent and manipulate IP addresses.
+ * 
+ * This class provides functionalities to parse, encode, and validate IP addresses.
+ * It supports initialization from strings, character arrays, and byte arrays.
+ */
 class IPAddress
 {
     std::string ip;
